@@ -2,8 +2,8 @@
 
 <?php
 // Define variables and set them to empty values
-$fnameErr = $lnameErr = $emailErr = $mobileErr = $religiousErr = $skillsErr = $skillsErr1 = $selectErr = $addressErr = $passwordErr = $cpasswordErr = $fileuploadErr = "";
-$fname = $lname = $email = $mobile = $religious = $select = $address = $password = $cpassword = $fileupload = "";
+$fnameErr = $lnameErr = $emailErr = $mobileErr = $religiousErr = $skillsErr = $skillsErr1 = $selectErr = $addressErr = $passwordErr = $cpasswordErr = $fileuploadErr = $fileuploadErr1 = "";
+$fname = $lname = $email = $mobile = $religious = $select = $address = $password = $cpassword = $fileupload  = "";
 $selectedSkills = [];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -97,7 +97,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ) {
         $passwordErr = "Password must have at least one uppercase letter, one lowercase letter, one digit, one special character, no spaces, and a minimum length of 8 characters";
     }
-
+    if (empty($cpassword)) {
+      $cpasswordErr = "CPassword is required";
+  }
     // Confirm Password
     if ($cpassword !== $password) {
         $cpasswordErr = "Confirm Password does not match";
@@ -105,7 +107,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
   
    
-
+    if (empty($_POST["file"])) {
+      $fileuploadErr = "Fileupload is required";
+  } 
 
     
 }
@@ -122,6 +126,7 @@ function test($data) {
     if($fnameErr == "" && $lnameErr == "" && $emailErr == "" && $mobileErr == "" && $religiousErr == "" && $skillsErr == "" && $skillsErr1 == "" && $selectErr == "" && $addressErr == "" && $passwordErr == "" && $cpasswordErr == "" && $fileuploadErr == "") {  
       if(isset($_POST['submit'])) {   
          // Check if a file was uploaded
+    
     if (!empty($_FILES["fileupload"]["name"])) {
       $fileupload = $_FILES["fileupload"];
       $target_dir = "upload/";  // Specify the directory where you want to store uploaded files
@@ -145,7 +150,8 @@ function test($data) {
 
       }  
     }  else {  
-      echo "<h3> <b>You didn't filled up the form correctly.</b> </h3>";  
+      $fileuploadErr1 = " You didn't filled up the form correctly.";  
+      // echo "<script>alert('You didn't filled up the form correctly.');</script>"; 
   } 
 ?>  
 
@@ -321,13 +327,16 @@ function test($data) {
                                         <!-- <input type="file" id="form3Example90" class="form-control form-control-lg" /> -->
                                         <label class="form-label" for="fileupload">Images</label>
                                         <span class="error">* <?php echo $fileuploadErr;?></span> 
+
                                         
 
                                     </div>
 
                                     <div class="d-flex justify-content-end pt-3">
+                                        <span class="error">* <?php echo $fileuploadErr1;?></span> 
                                         <button type="reset" value="reset" class="btn btn-light btn-lg">Reset all</button>
                                         <button type="submit" name="submit" id="submit"  class="btn btn-warning btn-lg ms-2">Submit form</button>
+                                       
                                     </div>
 
                                 </div>
